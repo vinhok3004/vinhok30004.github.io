@@ -25,8 +25,29 @@
             padding: 10px 20px;
             cursor: pointer;
         }
-        .icon {
-            font-size: 2rem;
+        .option {
+            margin: 5px 0;
+            cursor: pointer;
+            display: inline-block;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            width: 150px;
+            text-align: center;
+        }
+        .option:hover {
+            background-color: #d0d0d0;
+        }
+        .correct {
+            background-color: #28a745;
+            color: white;
+        }
+        .wrong {
+            background-color: #dc3545;
+            color: white;
+        }
+        #next-button {
+            display: none;
         }
     </style>
 </head>
@@ -35,49 +56,70 @@
     <div class="question">
         <h2 id="question-text"></h2>
         <div id="options"></div>
-        <button onclick="nextQuestion()" id="next-button" style="display: none;">Câu tiếp theo</button>
+        <button onclick="nextQuestion()" id="next-button">Câu tiếp theo</button>
     </div>
-    <p id="result" class="icon"></p>
+    <p id="result"></p>
 
     <script>
-        // Danh sách 300 câu hỏi
+        // Danh sách câu hỏi
         const questions = [
             { question: "Trái cây nào có màu đỏ, vị chua ngọt?", options: ["A. Cam", "B. Táo", "C. Dưa hấu", "D. Nho"], answer: "B" },
             { question: "Con gì có 8 chân và thường dệt lưới?", options: ["A. Kiến", "B. Chim", "C. Nhện", "D. Ếch"], answer: "C" },
             { question: "Nước nào có hình dáng giống chiếc ủng?", options: ["A. Pháp", "B. Ý", "C. Đức", "D. Thụy Điển"], answer: "B" },
             { question: "Món ăn nào là đặc sản của Việt Nam?", options: ["A. Sushi", "B. Pizza", "C. Phở", "D. Hamburger"], answer: "C" },
             { question: "Môn thể thao nào dùng vợt và cầu lông?", options: ["A. Bóng đá", "B. Quần vợt", "C. Cầu lông", "D. Bóng chuyền"], answer: "C" },
-            { question: "Động vật nào là vua của rừng xanh?", options: ["A. Voi", "B. Hổ", "C. Báo", "D. Sư tử"], answer: "D" },
-            { question: "Loài chim nào thường bay về phương Nam khi trời lạnh?", options: ["A. Chim cánh cụt", "B. Chim sẻ", "C. Chim én", "D. Chim đại bàng"], answer: "C" },
-            { question: "Quốc gia nào có kim tự tháp?", options: ["A. Hy Lạp", "B. Ấn Độ", "C. Ai Cập", "D. Mexico"], answer: "C" },
-            { question: "Mặt trời mọc ở hướng nào?", options: ["A. Tây", "B. Đông", "C. Nam", "D. Bắc"], answer: "B" },
-            { question: "Thực phẩm nào chứa nhiều vitamin C nhất?", options: ["A. Cam", "B. Khoai tây", "C. Cà chua", "D. Dưa hấu"], answer: "A" },
-            { question: "Điều gì không thể nhìn thấy nhưng luôn hiện diện?", options: ["A. Bóng tối", "B. Không khí", "C. Âm thanh", "D. Thời gian"], answer: "D" },
-            { question: "Ai là người đã phát minh ra điện thoại?", options: ["A. Thomas Edison", "B. Alexander Graham Bell", "C. Nikola Tesla", "D. Isaac Newton"], answer: "B" },
-            { question: "Quốc gia nào được gọi là 'đất nước mặt trời mọc'?", options: ["A. Trung Quốc", "B. Nhật Bản", "C. Hàn Quốc", "D. Thái Lan"], answer: "B" },
-            { question: "Loài cá nào có khả năng phát sáng?", options: ["A. Cá mập", "B. Cá nóc", "C. Cá rồng", "D. Cá đèn"], answer: "D" },
-            { question: "Thực vật nào sản xuất ra oxi?", options: ["A. Cây xanh", "B. Cây cảnh", "C. Cây xương rồng", "D. Cây ăn trái"], answer: "A" },
-            { question: "Chất lỏng nào có tính axit cao nhất?", options: ["A. Nước", "B. Giấm", "C. Chanh", "D. Axit sulfuric"], answer: "D" },
-            { question: "Điểm nào trên Trái Đất lạnh nhất?", options: ["A. Nam Cực", "B. Bắc Cực", "C. Sa mạc Sahara", "D. Bán cầu Tây"], answer: "A" },
-            { question: "Ai đã viết tác phẩm 'Hồ Quý Ly'?", options: ["A. Nguyễn Trãi", "B. Nguyễn Du", "C. Tố Hữu", "D. Xuân Diệu"], answer: "B" },
-            { question: "Món ăn nào được làm từ gạo và thường có trong bữa cơm của người Việt?", options: ["A. Phở", "B. Bánh mì", "C. Cơm", "D. Bún"], answer: "C" },
-            { question: "Thành phố nào là thủ đô của Việt Nam?", options: ["A. Đà Nẵng", "B. Hà Nội", "C. Hồ Chí Minh", "D. Nha Trang"], answer: "B" },
-            { question: "Nhà văn nào nổi tiếng với tác phẩm 'Truyện Kiều'?", options: ["A. Nguyễn Trãi", "B. Nguyễn Du", "C. Tố Hữu", "D. Xuân Diệu"], answer: "B" },
-            { question: "Thế giới có bao nhiêu châu lục?", options: ["A. 5", "B. 6", "C. 7", "D. 8"], answer: "C" },
-            { question: "Màu nào được xem là màu sắc của tình yêu?", options: ["A. Đỏ", "B. Xanh", "C. Vàng", "D. Trắng"], answer: "A" },
-            { question: "Bộ phận nào của cơ thể người chứa nhiều xương nhất?", options: ["A. Chân", "B. Tay", "C. Lưng", "D. Cổ"], answer: "A" },
-            { question: "Điện thoại đầu tiên được phát minh vào năm nào?", options: ["A. 1876", "B. 1887", "C. 1901", "D. 1920"], answer: "A" },
-            { question: "Cái gì có thể bay mà không có cánh?", options: ["A. Hơi nước", "B. Đám mây", "C. Người", "D. Hồ"], answer: "B" },
-            { question: "Thực phẩm nào chứa nhiều protein nhất?", options: ["A. Thịt bò", "B. Cá hồi", "C. Đậu nành", "D. Trứng"], answer: "C" },
-            { question: "Cái gì càng nhiều càng nặng?", options: ["A. Nước", "B. Bùn", "C. Ghi chú", "D. Nợ"], answer: "D" },
-            { question: "Ai là người đã phát minh ra máy bay?", options: ["A. Wright Brothers", "B. Einstein", "C. Tesla", "D. Newton"], answer: "A" },
-            { question: "Có bao nhiêu màu cơ bản trong bảng màu?", options: ["A. 2", "B. 3", "C. 4", "D. 5"], answer: "B" },
-            { question: "Cái gì không bao giờ di chuyển nhưng vẫn có thể gây ra tiếng động?", options: ["A. Cái ghế", "B. Cái bàn", "C. Cái hộp", "D. Cái chuông"], answer: "D" },
-            // Tiếp tục thêm câu hỏi ở đây...
+            // Thêm câu hỏi tiếp theo...
         ];
 
         let currentQuestionIndex = 0;
 
         function loadQuestion() {
             const questionData = questions[currentQuestionIndex];
-            document.getElementById('question
+            document.getElementById('question-text').innerText = questionData.question;
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            questionData.options.forEach(option => {
+                const button = document.createElement('div');
+                button.className = 'option';
+                button.innerText = option;
+                button.onclick = () => selectOption(option.charAt(0));
+                optionsContainer.appendChild(button);
+            });
+            document.getElementById('result').innerText = '';
+            document.getElementById('next-button').style.display = 'none';
+        }
+
+        function selectOption(selected) {
+            const questionData = questions[currentQuestionIndex];
+            const options = document.getElementsByClassName('option');
+
+            for (let i = 0; i < options.length; i++) {
+                if (options[i].innerText.charAt(0) === questionData.answer) {
+                    options[i].classList.add('correct');
+                } else {
+                    options[i].classList.add('wrong');
+                }
+                options[i].onclick = null; // Ngăn không cho chọn lại
+            }
+
+            document.getElementById('result').innerText = 
+                selected === questionData.answer ? "Chúc mừng! Bạn đã chọn đúng!" : "Rất tiếc! Bạn đã chọn sai.";
+            document.getElementById('next-button').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                document.getElementById('question-text').innerText = "Cảm ơn bạn đã tham gia!";
+                document.getElementById('options').innerHTML = '';
+                document.getElementById('next-button').style.display = 'none';
+            }
+        }
+
+        // Tải câu hỏi đầu tiên
+        loadQuestion();
+    </script>
+</body>
+</html>
