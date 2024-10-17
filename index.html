@@ -1,93 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giải trí cùng Vinh😁</title>
+    <title>ĐÀO VĂN DƯƠNG</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #f0f0f0;
             color: #333;
             text-align: center;
             padding: 20px;
         }
         h1 {
-            color: #007BFF;
+            color: #4CAF50;
         }
-        .question {
-            margin: 20px 0;
+        h2 {
+            color: #2C3E50;
         }
-        button {
-            margin-top: 10px;
-            padding: 10px 20px;
-            cursor: pointer;
+        p {
+            font-size: 16px;
+            line-height: 1.5;
         }
-        .option {
-            margin: 5px 0;
-            cursor: pointer;
-            display: inline-block;
-            padding: 10px;
-            background-color: #fff;
-            border: 1px solid #007BFF;
-            border-radius: 5px;
-            width: 150px;
-            text-align: center;
-        }
-        .option:hover {
-            background-color: #e0e0e0;
-        }
-        #next-button {
-            display: none;
-        }
-        .result-icon {
-            font-size: 20px;
-        }
-        .source {
-            margin-top: 20px;
-            font-style: italic;
-            color: #555;
+        img {
+            max-width: 100%;
+            height: auto;
+            margin: 10px 0;
         }
     </style>
 </head>
 <body>
-    <h1>Giải trí cùng Vinh😁</h1>
-    <div class="question">
-        <h2 id="question-text"></h2>
-        <div id="options"></div>
-        <button onclick="nextQuestion()" id="next-button">Câu tiếp theo</button>
-    </div>
-    <p id="result"></p>
-    <p class="source">Nguồn: Được tổng hợp từ nhiều nguồn khác nhau.</p>
+    <h1>Chào mừng đến với trang web của ĐÀO VĂN DƯƠNG!</h1>
+    
+    <h2>Môn học yêu thích: Toán</h2>
+    
+    <!-- Vị trí ảnh 1 -->
+    <img src="path/to/your/image1.jpg" alt="Môn Toán" />
 
-    <script>
-        const questions = [
-            { question: "Cái gì mà bạn càng lấy đi thì nó càng lớn?", options: ["A. Hố", "B. Nước", "C. Không khí", "D. Thời gian"], answer: "A" },
-            { question: "Cái gì không có chân nhưng vẫn có thể chạy?", options: ["A. Thời gian", "B. Nước", "C. Gió", "D. Đá"], answer: "A" },
-            { question: "Cái gì không thể chạm vào nhưng có thể cảm nhận?", options: ["A. Gió", "B. Âm thanh", "C. Tình yêu", "D. Đá"], answer: "A" },
-            { question: "Cái gì có thể bơi nhưng không có chân?", options: ["A. Cá", "B. Vịt", "C. Thuyền", "D. Không khí"], answer: "A" },
-            { question: "Cái gì càng cho đi thì càng nhiều?", options: ["A. Tình yêu", "B. Tiền", "C. Lòng kiêu hãnh", "D. Thời gian"], answer: "A" },
-            { question: "Cái gì không có mắt nhưng có thể nhìn thấy?", options: ["A. Gương", "B. Trái đất", "C. Mặt trời", "D. Bầu trời"], answer: "A" },
-            { question: "Cái gì luôn đi lên nhưng không bao giờ đi xuống?", options: ["A. Tuổi tác", "B. Thời gian", "C. Kinh tế", "D. Đường phố"], answer: "A" },
-            { question: "Cái gì mà bạn càng để lâu càng quý?", options: ["A. Rượu", "B. Thời gian", "C. Ký ức", "D. Lòng kiêu hãnh"], answer: "A" },
-            { question: "Cái gì càng ít càng tốt?", options: ["A. Tiền", "B. Thời gian", "C. Sự im lặng", "D. Lời nói"], answer: "C" },
-            { question: "Cái gì có thể nói nhưng không bao giờ nói dối?", options: ["A. Gương", "B. Thời gian", "C. Tiền", "D. Tình yêu"], answer: "A" },
-            { question: "Cái gì không có lửa nhưng có thể cháy?", options: ["A. Rác", "B. Giấy", "C. Tình yêu", "D. Gió"], answer: "C" },
-            { question: "Cái gì càng giàu có càng không thể cầm nắm?", options: ["A. Tình yêu", "B. Thời gian", "C. Kinh nghiệm", "D. Lòng kiêu hãnh"], answer: "A" },
-            { question: "Cái gì không có chân nhưng lại có thể đi?", options: ["A. Gió", "B. Thời gian", "C. Mưa", "D. Tình yêu"], answer: "C" },
-            { question: "Cái gì không thể mất đi nhưng lại có thể quên?", options: ["A. Ký ức", "B. Tình yêu", "C. Thời gian", "D. Sức khỏe"], answer: "A" },
-            { question: "Cái gì có thể đứng yên nhưng lại có thể di chuyển?", options: ["A. Ngọn đèn", "B. Bức tranh", "C. Tình yêu", "D. Mặt trời"], answer: "C" },
-            { question: "Cái gì có thể kéo dài mãi mãi nhưng không thể chạm vào?", options: ["A. Tình yêu", "B. Thời gian", "C. Không khí", "D. Ký ức"], answer: "B" },
-            { question: "Cái gì không thể làm hỏng nhưng có thể bị quên?", options: ["A. Lời hứa", "B. Ký ức", "C. Tình yêu", "D. Sức khỏe"], answer: "A" },
-            { question: "Cái gì không có hình dáng nhưng vẫn có thể cảm nhận?", options: ["A. Tình yêu", "B. Thời gian", "C. Không khí", "D. Giấc mơ"], answer: "C" },
-            { question: "Cái gì càng ít càng tốt?", options: ["A. Lời nói", "B. Tiền", "C. Thời gian", "D. Tình yêu"], answer: "A" },
-            { question: "Cái gì không thể mất đi nhưng lại có thể quên?", options: ["A. Ký ức", "B. Tình yêu", "C. Thời gian", "D. Sức khỏe"], answer: "A" },
-            { question: "Cái gì có thể nghe thấy nhưng không thể nhìn thấy?", options: ["A. Âm thanh", "B. Gió", "C. Lòng kiêu hãnh", "D. Thời gian"], answer: "A" },
-            { question: "Cái gì không có chân nhưng lại có thể đi?", options: ["A. Gió", "B. Thời gian", "C. Mưa", "D. Tình yêu"], answer: "C" },
-            { question: "Cái gì không thể chạm vào nhưng lại có thể cảm nhận?", options: ["A. Gió", "B. Âm thanh", "C. Tình yêu", "D. Đá"], answer: "A" },
-            { question: "Cái gì mà bạn càng để lâu càng quý?", options: ["A. Rượu", "B. Thời gian", "C. Ký ức", "D. Lòng kiêu hãnh"], answer: "A" },
-            { question: "Cái gì càng cho đi thì càng nhiều?", options: ["A. Tình yêu", "B. Tiền", "C. Lòng kiêu hãnh", "D. Thời gian"], answer: "A" },
-            { question: "Cái gì không có mắt nhưng có thể nhìn thấy?", options: ["A. Gương", "B. Trái đất", "C. Mặt trời", "D. Bầu trời"], answer: "A" },
-            { question: "Cái gì không có chân nhưng vẫn có thể chạy?", options: ["A. Thời gian", "B. Nước", "C. Gió", "D. Đá"], answer: "A" },
-            { question: "Cái gì càng nặng thì lại càng nhẹ?", options: ["A. Nước", "B. Đá", "C. Bóng bay", "D. Lời nói"], answer: "C" },
-            { question: "Cái gì không thể chạy nhưng lại có thể đi?", options: ["A. Nước", "B. Thời gian", "C. Gió", "D. Mặt trời"], answer: "
+    <p>
+        Môn Toán là một trong những môn học cơ bản và thiết yếu trong chương trình học. 
+        Đây không chỉ là môn học về số học, mà còn giúp phát triển tư duy logic và khả năng 
+        giải quyết vấn đề. Học Toán giúp em hiểu rõ hơn về các khái niệm trong cuộc sống 
+        hàng ngày, từ việc tính toán chi phí đến phân tích dữ liệu.
+    </p>
+    
+    <!-- Vị trí ảnh 2 -->
+    <img src="path/to/your/image2.jpg" alt="Học Toán" />
+    
+    <p>
+        Toán học cũng là nền tảng cho nhiều lĩnh vực khoa học khác như Vật lý, Hóa học, 
+        và Kinh tế. Việc nắm vững các kiến thức Toán học sẽ giúp em tự tin hơn trong 
+        việc ứng dụng vào thực tiễn và trong các kỳ thi.
+    </p>
+    
+    <!-- Vị trí ảnh 3 -->
+    <img src="path/to/your/image3.jpg" alt="Khám phá Toán học" />
+    
+    <p>
+        Ngoài ra, môn Toán còn giúp rèn luyện sự kiên nhẫn và khả năng tập trung, 
+        là những kỹ năng quan trọng trong học tập và cuộc sống. Em rất yêu thích 
+        môn học này và mong muốn phát triển thêm nhiều kỹ năng trong tương lai.
+    </p>
+</body>
+</html>
