@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Giải Trí Của Vinh</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://cdn.pixabay.com/photo/2017/08/30/23/07/emoji-2699680_960_720.png');
+            background-repeat: repeat;
+            background-size: 50px 50px;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #007BFF;
+        }
+        .question {
+            margin: 20px 0;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .icon {
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Web Giải Trí Của Vinh</h1>
+    <div class="question">
+        <h2 id="question-text">Câu đố 1:</h2>
+        <button onclick="checkAnswer('A')">A</button>
+        <button onclick="checkAnswer('B')">B</button>
+        <button onclick="checkAnswer('C')">C</button>
+        <button onclick="checkAnswer('D')">D</button>
+    </div>
+    <p id="result" class="icon"></p>
+    <button onclick="nextQuestion()" id="next-button" style="display: none;">Câu tiếp theo</button>
+
+    <script>
+        const questions = [
+            { question: "Trái cây nào có màu đỏ, vị chua ngọt?", options: ["Cam", "Táo", "Dưa hấu", "Nho"], answer: "B" },
+            { question: "Con gì có 8 chân và thường dệt lưới?", options: ["Kiến", "Chim", "Nhện", "Ếch"], answer: "C" },
+            { question: "Nước nào có hình dáng giống chiếc ủng?", options: ["Pháp", "Ý", "Đức", "Thụy Điển"], answer: "B" },
+            { question: "Món ăn nào là đặc sản của Việt Nam?", options: ["Sushi", "Pizza", "Phở", "Hamburger"], answer: "C" },
+            { question: "Thành phố nào là thủ đô của Việt Nam?", options: ["Hồ Chí Minh", "Hải Phòng", "Đà Nẵng", "Hà Nội"], answer: "D" },
+            { question: "Hành tinh nào lớn nhất trong hệ mặt trời?", options: ["Trái Đất", "Sao Hỏa", "Sao Mộc", "Sao Thủy"], answer: "C" },
+            { question: "Con vật nào là biểu tượng của Trung Quốc?", options: ["Hổ", "Gấu Trúc", "Chim cánh cụt", "Cá sấu"], answer: "B" },
+            { question: "Động vật nào có khả năng bay?", options: ["Chó", "Cá", "Chim", "Rùa"], answer: "C" },
+            { question: "Người phát minh ra bóng đèn là ai?", options: ["Newton", "Einstein", "Edison", "Galileo"], answer: "C" },
+            { question: "Quốc gia nào có nền văn hóa Kimono?", options: ["Hàn Quốc", "Trung Quốc", "Nhật Bản", "Việt Nam"], answer: "C" },
+            { question: "Quốc gia nào nổi tiếng với kim tự tháp?", options: ["Hy Lạp", "Ấn Độ", "Ai Cập", "Mexico"], answer: "C" },
+            { question: "Mùa nào có tuyết rơi?", options: ["Xuân", "Hạ", "Thu", "Đông"], answer: "D" },
+            { question: "Trái cây nào có hạt bên ngoài?", options: ["Cam", "Dưa hấu", "Dâu tây", "Chuối"], answer: "C" },
+            { question: "Con vật nào có khả năng biến đổi màu da?", options: ["Cá heo", "Tắc kè", "Voi", "Ngựa"], answer: "B" },
+            { question: "Loài vật nào được coi là bạn của con người?", options: ["Chó", "Sư tử", "Cá mập", "Rắn"], answer: "A" },
+            { question: "Nước nào có tên là xứ sở chùa vàng?", options: ["Việt Nam", "Thái Lan", "Lào", "Myanmar"], answer: "B" },
+            { question: "Ngôi sao nào nằm gần nhất với Trái Đất?", options: ["Sao Kim", "Mặt Trời", "Sao Hỏa", "Sao Mộc"], answer: "B" },
+            { question: "Ngôn ngữ nào là chính thức của Anh?", options: ["Pháp", "Anh", "Tây Ban Nha", "Ý"], answer: "B" },
+            { question: "Món nào là đặc sản của Nhật Bản?", options: ["Phở", "Kim chi", "Sushi", "Pizza"], answer: "C" },
+            { question: "Hoa nào là biểu tượng của tình yêu?", options: ["Hoa hồng", "Hoa cúc", "Hoa sen", "Hoa mai"], answer: "A" }
+        ];
+
+        let currentQuestion = 0;
+
+        function loadQuestion() {
+            const questionElement = document.getElementById('question-text');
+            const buttons = document.querySelectorAll('button');
+            const question = questions[currentQuestion];
+
+            questionElement.textContent = `Câu đố ${currentQuestion + 1}: ${question.question}`;
+            buttons[0].textContent = `A. ${question.options[0]}`;
+            buttons[1].textContent = `B. ${question.options[1]}`;
+            buttons[2].textContent = `C. ${question.options[2]}`;
+            buttons[3].textContent = `D. ${question.options[3]}`;
+        }
+
+        function checkAnswer(answer) {
+            const correctAnswer = questions[currentQuestion].answer;
+            const result = document.getElementById('result');
+            if (answer === correctAnswer) {
+                result.textContent = 'Chính xác! Bạn đã chọn đúng đáp án 🎉';
+                result.style.color = 'green';
+            } else {
+                const icons = ['🤪', '😂', '🖕'];
+                const randomIcon = icons[Math.floor(Math.random() * icons.length)];
+                result.textContent = `Sai rồi! ${randomIcon}`;
+                result.style.color = 'red';
+            }
+            document.getElementById('next-button').style.display = 'inline';
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                document.getElementById('result').textContent = '';
+                document.getElementById('next-button').style.display = 'none';
+                loadQuestion();
+            } else {
+                document.getElementById('question-text').textContent = 'Chúc mừng! Bạn đã hoàn thành tất cả các câu đố.';
+                document.querySelector('.question').style.display = 'none';
+                document.getElementById('result').textContent = '';
+            }
+        }
+
+        // Load câu hỏi đầu tiên khi trang web được tải
+        loadQuestion();
+    </script>
+</body>
+</html>
