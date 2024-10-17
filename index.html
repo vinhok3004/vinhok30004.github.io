@@ -33,52 +33,51 @@
 <body>
     <h1>Web Giải Trí Của Vinh</h1>
     <div class="question">
-        <h2 id="question-text">Câu đố 1:</h2>
-        <button onclick="checkAnswer('A')">A</button>
-        <button onclick="checkAnswer('B')">B</button>
-        <button onclick="checkAnswer('C')">C</button>
-        <button onclick="checkAnswer('D')">D</button>
+        <h2 id="question-text"></h2>
+        <div id="options"></div>
+        <button onclick="nextQuestion()" id="next-button" style="display: none;">Câu tiếp theo</button>
     </div>
     <p id="result" class="icon"></p>
-    <button onclick="nextQuestion()" id="next-button" style="display: none;">Câu tiếp theo</button>
 
     <script>
         // Danh sách 300 câu hỏi
-        const allQuestions = [
-            { question: "Trái cây nào có màu đỏ, vị chua ngọt?", options: ["Cam", "Táo", "Dưa hấu", "Nho"], answer: "B" },
-            { question: "Con gì có 8 chân và thường dệt lưới?", options: ["Kiến", "Chim", "Nhện", "Ếch"], answer: "C" },
-            { question: "Nước nào có hình dáng giống chiếc ủng?", options: ["Pháp", "Ý", "Đức", "Thụy Điển"], answer: "B" },
-            { question: "Món ăn nào là đặc sản của Việt Nam?", options: ["Sushi", "Pizza", "Phở", "Hamburger"], answer: "C" },
-            { question: "Môn thể thao nào dùng vợt và cầu lông?", options: ["Bóng đá", "Quần vợt", "Cầu lông", "Bóng chuyền"], answer: "C" },
-            { question: "Động vật nào là vua của rừng xanh?", options: ["Voi", "Hổ", "Báo", "Sư tử"], answer: "D" },
-            { question: "Loài chim nào thường bay về phương Nam khi trời lạnh?", options: ["Chim cánh cụt", "Chim sẻ", "Chim én", "Chim đại bàng"], answer: "C" },
-            { question: "Quốc gia nào có kim tự tháp?", options: ["Hy Lạp", "Ấn Độ", "Ai Cập", "Mexico"], answer: "C" },
-            { question: "Mặt trời mọc ở hướng nào?", options: ["Tây", "Đông", "Nam", "Bắc"], answer: "B" },
-            { question: "Thực phẩm nào chứa nhiều vitamin C nhất?", options: ["Cam", "Khoai tây", "Cà chua", "Dưa hấu"], answer: "A" },
-            { question: "Điều gì không thể nhìn thấy nhưng luôn hiện diện?", options: ["Bóng tối", "Không khí", "Âm thanh", "Thời gian"], answer: "D" },
-            { question: "Ai là người đã phát minh ra điện thoại?", options: ["Thomas Edison", "Alexander Graham Bell", "Nikola Tesla", "Isaac Newton"], answer: "B" },
-            { question: "Quốc gia nào được gọi là 'đất nước mặt trời mọc'?", options: ["Trung Quốc", "Nhật Bản", "Hàn Quốc", "Thái Lan"], answer: "B" },
-            { question: "Loài cá nào có khả năng phát sáng?", options: ["Cá mập", "Cá nóc", "Cá rồng", "Cá đèn"], answer: "D" },
-            { question: "Thực vật nào sản xuất ra oxi?", options: ["Cây xanh", "Cây cảnh", "Cây xương rồng", "Cây ăn trái"], answer: "A" },
-            { question: "Chất lỏng nào có tính axit cao nhất?", options: ["Nước", "Giấm", "Chanh", "Axit sulfuric"], answer: "D" },
-            { question: "Điểm nào trên Trái Đất lạnh nhất?", options: ["Nam Cực", "Bắc Cực", "Sa mạc Sahara", "Bán cầu Tây"], answer: "A" },
-            { question: "Ai đã viết tác phẩm 'Hồ Quý Ly'?", options: ["Nguyễn Trãi", "Nguyễn Du", "Trần Nhân Tông", "Lý Thường Kiệt"], answer: "A" },
-            { question: "Món ăn nào được làm từ gạo và thường có trong bữa cơm của người Việt?", options: ["Phở", "Bánh mì", "Cơm", "Bún"], answer: "C" },
-            { question: "Thành phố nào là thủ đô của Việt Nam?", options: ["Đà Nẵng", "Hà Nội", "Hồ Chí Minh", "Nha Trang"], answer: "B" },
-            { question: "Nhà văn nào nổi tiếng với tác phẩm 'Truyện Kiều'?", options: ["Nguyễn Trãi", "Nguyễn Du", "Tố Hữu", "Xuân Diệu"], answer: "B" },
-            { question: "Thế giới có bao nhiêu châu lục?", options: ["5", "6", "7", "8"], answer: "C" },
-            { question: "Màu nào được xem là màu sắc của tình yêu?", options: ["Đỏ", "Xanh", "Vàng", "Trắng"], answer: "A" },
-            { question: "Bộ phận nào của cơ thể người chứa nhiều xương nhất?", options: ["Chân", "Tay", "Lưng", "Cổ"], answer: "A" },
-            { question: "Điện thoại đầu tiên được phát minh vào năm nào?", options: ["1876", "1887", "1901", "1920"], answer: "A" },
-            { question: "Cái gì có thể bay mà không có cánh?", options: ["Hơi nước", "Đám mây", "Người", "Hồ"], answer: "B" },
-            { question: "Thực phẩm nào chứa nhiều protein nhất?", options: ["Thịt bò", "Cá hồi", "Đậu nành", "Trứng"], answer: "C" },
-            { question: "Cái gì càng nhiều càng nặng?", options: ["Nước", "Bùn", "Ghi chú", "Nợ"], answer: "D" },
-            { question: "Ai là người đã phát minh ra máy bay?", options: ["Wright Brothers", "Einstein", "Tesla", "Newton"], answer: "A" },
-            { question: "Có bao nhiêu màu cơ bản trong bảng màu?", options: ["2", "3", "4", "5"], answer: "B" },
-            { question: "Cái gì không bao giờ di chuyển nhưng lại đi khắp nơi?", options: ["Bản đồ", "Địa cầu", "Cửa sổ", "Sách"], answer: "A" },
-            { question: "Con gì có thể sống mà không cần thức ăn?", options: ["Nhện", "Mọt", "Cá", "Người"], answer: "B" },
-            { question: "Tại sao mặt trời không bao giờ đi ngủ?", options: ["Nó quá sáng", "Nó không cần ngủ", "Nó là ngôi sao", "Nó có quá nhiều việc"], answer: "B" },
-            { question: "Cái gì có hai mặt nhưng chỉ có một đường?", options: ["Đồng xu", "Kính", "Sách", "Bánh"], answer: "A" },
-            { question: "Mặt trăng quay quanh hành tinh nào?", options: ["Marte", "Jupiter", "Trái đất", "Venus"], answer: "C" },
-            { question: "Cái gì có thể cắt nhưng không chảy máu?", options: ["Dao", "Cắt giấy", "Nước", "Gió"], answer: "C" },
-            { question: "Con gì luôn luôn chạy nhưng không bao giờ đi?", options: ["Dòng nước",
+        const questions = [
+            { question: "Trái cây nào có màu đỏ, vị chua ngọt?", options: ["A. Cam", "B. Táo", "C. Dưa hấu", "D. Nho"], answer: "B" },
+            { question: "Con gì có 8 chân và thường dệt lưới?", options: ["A. Kiến", "B. Chim", "C. Nhện", "D. Ếch"], answer: "C" },
+            { question: "Nước nào có hình dáng giống chiếc ủng?", options: ["A. Pháp", "B. Ý", "C. Đức", "D. Thụy Điển"], answer: "B" },
+            { question: "Món ăn nào là đặc sản của Việt Nam?", options: ["A. Sushi", "B. Pizza", "C. Phở", "D. Hamburger"], answer: "C" },
+            { question: "Môn thể thao nào dùng vợt và cầu lông?", options: ["A. Bóng đá", "B. Quần vợt", "C. Cầu lông", "D. Bóng chuyền"], answer: "C" },
+            { question: "Động vật nào là vua của rừng xanh?", options: ["A. Voi", "B. Hổ", "C. Báo", "D. Sư tử"], answer: "D" },
+            { question: "Loài chim nào thường bay về phương Nam khi trời lạnh?", options: ["A. Chim cánh cụt", "B. Chim sẻ", "C. Chim én", "D. Chim đại bàng"], answer: "C" },
+            { question: "Quốc gia nào có kim tự tháp?", options: ["A. Hy Lạp", "B. Ấn Độ", "C. Ai Cập", "D. Mexico"], answer: "C" },
+            { question: "Mặt trời mọc ở hướng nào?", options: ["A. Tây", "B. Đông", "C. Nam", "D. Bắc"], answer: "B" },
+            { question: "Thực phẩm nào chứa nhiều vitamin C nhất?", options: ["A. Cam", "B. Khoai tây", "C. Cà chua", "D. Dưa hấu"], answer: "A" },
+            { question: "Điều gì không thể nhìn thấy nhưng luôn hiện diện?", options: ["A. Bóng tối", "B. Không khí", "C. Âm thanh", "D. Thời gian"], answer: "D" },
+            { question: "Ai là người đã phát minh ra điện thoại?", options: ["A. Thomas Edison", "B. Alexander Graham Bell", "C. Nikola Tesla", "D. Isaac Newton"], answer: "B" },
+            { question: "Quốc gia nào được gọi là 'đất nước mặt trời mọc'?", options: ["A. Trung Quốc", "B. Nhật Bản", "C. Hàn Quốc", "D. Thái Lan"], answer: "B" },
+            { question: "Loài cá nào có khả năng phát sáng?", options: ["A. Cá mập", "B. Cá nóc", "C. Cá rồng", "D. Cá đèn"], answer: "D" },
+            { question: "Thực vật nào sản xuất ra oxi?", options: ["A. Cây xanh", "B. Cây cảnh", "C. Cây xương rồng", "D. Cây ăn trái"], answer: "A" },
+            { question: "Chất lỏng nào có tính axit cao nhất?", options: ["A. Nước", "B. Giấm", "C. Chanh", "D. Axit sulfuric"], answer: "D" },
+            { question: "Điểm nào trên Trái Đất lạnh nhất?", options: ["A. Nam Cực", "B. Bắc Cực", "C. Sa mạc Sahara", "D. Bán cầu Tây"], answer: "A" },
+            { question: "Ai đã viết tác phẩm 'Hồ Quý Ly'?", options: ["A. Nguyễn Trãi", "B. Nguyễn Du", "C. Tố Hữu", "D. Xuân Diệu"], answer: "B" },
+            { question: "Món ăn nào được làm từ gạo và thường có trong bữa cơm của người Việt?", options: ["A. Phở", "B. Bánh mì", "C. Cơm", "D. Bún"], answer: "C" },
+            { question: "Thành phố nào là thủ đô của Việt Nam?", options: ["A. Đà Nẵng", "B. Hà Nội", "C. Hồ Chí Minh", "D. Nha Trang"], answer: "B" },
+            { question: "Nhà văn nào nổi tiếng với tác phẩm 'Truyện Kiều'?", options: ["A. Nguyễn Trãi", "B. Nguyễn Du", "C. Tố Hữu", "D. Xuân Diệu"], answer: "B" },
+            { question: "Thế giới có bao nhiêu châu lục?", options: ["A. 5", "B. 6", "C. 7", "D. 8"], answer: "C" },
+            { question: "Màu nào được xem là màu sắc của tình yêu?", options: ["A. Đỏ", "B. Xanh", "C. Vàng", "D. Trắng"], answer: "A" },
+            { question: "Bộ phận nào của cơ thể người chứa nhiều xương nhất?", options: ["A. Chân", "B. Tay", "C. Lưng", "D. Cổ"], answer: "A" },
+            { question: "Điện thoại đầu tiên được phát minh vào năm nào?", options: ["A. 1876", "B. 1887", "C. 1901", "D. 1920"], answer: "A" },
+            { question: "Cái gì có thể bay mà không có cánh?", options: ["A. Hơi nước", "B. Đám mây", "C. Người", "D. Hồ"], answer: "B" },
+            { question: "Thực phẩm nào chứa nhiều protein nhất?", options: ["A. Thịt bò", "B. Cá hồi", "C. Đậu nành", "D. Trứng"], answer: "C" },
+            { question: "Cái gì càng nhiều càng nặng?", options: ["A. Nước", "B. Bùn", "C. Ghi chú", "D. Nợ"], answer: "D" },
+            { question: "Ai là người đã phát minh ra máy bay?", options: ["A. Wright Brothers", "B. Einstein", "C. Tesla", "D. Newton"], answer: "A" },
+            { question: "Có bao nhiêu màu cơ bản trong bảng màu?", options: ["A. 2", "B. 3", "C. 4", "D. 5"], answer: "B" },
+            { question: "Cái gì không bao giờ di chuyển nhưng vẫn có thể gây ra tiếng động?", options: ["A. Cái ghế", "B. Cái bàn", "C. Cái hộp", "D. Cái chuông"], answer: "D" },
+            // Tiếp tục thêm câu hỏi ở đây...
+        ];
+
+        let currentQuestionIndex = 0;
+
+        function loadQuestion() {
+            const questionData = questions[currentQuestionIndex];
+            document.getElementById('question
