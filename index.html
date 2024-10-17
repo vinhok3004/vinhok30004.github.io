@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Giải Trí Của Vinh</title>
+    <title>Giải trí cùng Vinh😁</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-image: url('https://cdn.pixabay.com/photo/2017/08/30/23/07/emoji-2699680_960_720.png');
-            background-repeat: repeat;
-            background-size: 50px 50px;
+            background-color: #f4f4f4;
             color: #333;
             text-align: center;
             padding: 20px;
@@ -30,94 +28,66 @@
             cursor: pointer;
             display: inline-block;
             padding: 10px;
-            background-color: #f0f0f0;
+            background-color: #fff;
+            border: 1px solid #007BFF;
             border-radius: 5px;
             width: 150px;
             text-align: center;
         }
         .option:hover {
-            background-color: #d0d0d0;
-        }
-        .correct {
-            background-color: #28a745;
-            color: white;
-        }
-        .wrong {
-            background-color: #dc3545;
-            color: white;
+            background-color: #e0e0e0;
         }
         #next-button {
             display: none;
         }
-        img {
-            width: 20px;
-            height: 20px;
-            vertical-align: middle;
-            margin-left: 10px;
+        .result-icon {
+            font-size: 20px;
+        }
+        .source {
+            margin-top: 20px;
+            font-style: italic;
+            color: #555;
         }
     </style>
 </head>
 <body>
-    <h1>Web Giải Trí Của Vinh</h1>
+    <h1>Giải trí cùng Vinh😁</h1>
     <div class="question">
         <h2 id="question-text"></h2>
         <div id="options"></div>
         <button onclick="nextQuestion()" id="next-button">Câu tiếp theo</button>
     </div>
     <p id="result"></p>
+    <p class="source">Nguồn: Được tổng hợp từ nhiều nguồn khác nhau.</p>
 
     <script>
-        // Danh sách câu hỏi
         const questions = [
-            { question: "Trái cây nào có màu đỏ, vị chua ngọt?", options: ["A. Cam", "B. Táo", "C. Dưa hấu", "D. Nho"], answer: "B" },
-            { question: "Con gì có 8 chân và thường dệt lưới?", options: ["A. Kiến", "B. Chim", "C. Nhện", "D. Ếch"], answer: "C" },
-            { question: "Nước nào có hình dáng giống chiếc ủng?", options: ["A. Pháp", "B. Ý", "C. Đức", "D. Thụy Điển"], answer: "B" },
-            { question: "Món ăn nào là đặc sản của Việt Nam?", options: ["A. Sushi", "B. Pizza", "C. Phở", "D. Hamburger"], answer: "C" },
-            { question: "Môn thể thao nào dùng vợt và cầu lông?", options: ["A. Bóng đá", "B. Quần vợt", "C. Cầu lông", "D. Bóng chuyền"], answer: "C" },
-            { question: "Cái gì không có chân nhưng vẫn có thể chạy?", options: ["A. Ngựa", "B. Thời gian", "C. Con gà", "D. Bò"], answer: "B" },
-            { question: "Cái gì không có chân nhưng vẫn có thể bay?", options: ["A. Chim", "B. Máy bay", "C. Gió", "D. Thuyền"], answer: "C" },
-            { question: "Con gì có 1 chân nhưng vẫn có thể nhảy?", options: ["A. Ếch", "B. Chó", "C. Gà", "D. Nhện"], answer: "A" },
-            { question: "Món ăn nào làm từ gạo và rất phổ biến ở Việt Nam?", options: ["A. Mì", "B. Bánh mì", "C. Xôi", "D. Bánh bao"], answer: "C" },
-            { question: "Cái gì mà bạn càng lấy đi thì nó càng lớn lên?", options: ["A. Nước", "B. Hố", "C. Đá", "D. Không khí"], answer: "B" },
-            { question: "Cái gì luôn đi lên nhưng không bao giờ đi xuống?", options: ["A. Đường phố", "B. Tuổi tác", "C. Thời gian", "D. Kinh tế"], answer: "B" },
-            { question: "Con gì đi bằng 4 chân, rồi 2 chân, rồi 3 chân?", options: ["A. Khỉ", "B. Người", "C. Vịt", "D. Mèo"], answer: "B" },
-            { question: "Món ăn nào có hình dạng giống như một chiếc thuyền?", options: ["A. Bánh chưng", "B. Bánh trôi", "C. Bánh tét", "D. Bánh xèo"], answer: "C" },
-            { question: "Cái gì mà bạn chỉ có thể nghe thấy nhưng không thể thấy?", options: ["A. Gió", "B. Âm thanh", "C. Tình yêu", "D. Nước"], answer: "B" },
-            { question: "Cái gì có thể bị bẻ gãy mà không cần phải chạm vào?", options: ["A. Giấc mơ", "B. Lời hứa", "C. Quy tắc", "D. Đơn thuốc"], answer: "B" },
-            { question: "Cái gì có thể nở ra nhưng lại không có hạt?", options: ["A. Bánh", "B. Hoa", "C. Giấc mơ", "D. Tình yêu"], answer: "B" },
-            { question: "Cái gì không bao giờ nói nhưng luôn nói sự thật?", options: ["A. Gương", "B. Lời hứa", "C. Giấc mơ", "D. Tiền bạc"], answer: "A" },
-            { question: "Cái gì có thể sống mà không cần uống nước?", options: ["A. Cá", "B. Chó", "C. Lạc đà", "D. Mèo"], answer: "C" },
-            { question: "Món ăn nào là truyền thống trong ngày Tết?", options: ["A. Bánh mì", "B. Bánh chưng", "C. Pizza", "D. Sushi"], answer: "B" },
-            { question: "Cái gì mà bạn không thể chạm vào nhưng vẫn có thể cảm nhận?", options: ["A. Không khí", "B. Nước", "C. Cát", "D. Đá"], answer: "A" },
-            { question: "Món ăn nào có hình dạng giống như một cái nơ?", options: ["A. Mì Ý", "B. Bánh nơ", "C. Bánh bao", "D. Bánh trung thu"], answer: "B" },
-            { question: "Cái gì mà bạn chỉ có thể nghe thấy nhưng không thể thấy?", options: ["A. Gió", "B. Âm thanh", "C. Tình yêu", "D. Nước"], answer: "B" },
-            { question: "Cái gì có thể chứa nhiều nước nhưng lại không bao giờ ướt?", options: ["A. Bọt biển", "B. Thùng nước", "C. Mây", "D. Đá"], answer: "C" },
-            // Thêm 270 câu hỏi còn lại ở đây...
-        ];
-
-        let currentQuestionIndex = 0;
-        let score = 0;
-
-        function loadQuestion() {
-            const currentQuestion = questions[currentQuestionIndex];
-            document.getElementById("question-text").innerText = currentQuestion.question;
-            const optionsContainer = document.getElementById("options");
-            optionsContainer.innerHTML = "";
-            currentQuestion.options.forEach(option => {
-                const optionElement = document.createElement("div");
-                optionElement.innerText = option;
-                optionElement.className = "option";
-                optionElement.onclick = () => checkAnswer(option.charAt(0));
-                optionsContainer.appendChild(optionElement);
-            });
-            document.getElementById("result").innerText = "";
-            document.getElementById("next-button").style.display = "none";
-        }
-
-        function checkAnswer(selectedOption) {
-            const currentQuestion = questions[currentQuestionIndex];
-            if (selectedOption === currentQuestion.answer) {
-                document.getElementById("result").innerHTML = `Đúng rồi! <img src="https://img.icons8.com/color/48/000000/checkmark.png"/>`;
-                score++;
-            } else {
-                document.getElementById("result").innerHTML = `Sai rồi!
+            { question: "Cái gì mà bạn càng lấy đi thì nó càng lớn?", options: ["A. Hố", "B. Nước", "C. Không khí", "D. Thời gian"], answer: "A" },
+            { question: "Cái gì không có chân nhưng vẫn có thể chạy?", options: ["A. Thời gian", "B. Nước", "C. Gió", "D. Đá"], answer: "A" },
+            { question: "Cái gì không thể chạm vào nhưng có thể cảm nhận?", options: ["A. Gió", "B. Âm thanh", "C. Tình yêu", "D. Đá"], answer: "A" },
+            { question: "Cái gì có thể bơi nhưng không có chân?", options: ["A. Cá", "B. Vịt", "C. Thuyền", "D. Không khí"], answer: "A" },
+            { question: "Cái gì càng cho đi thì càng nhiều?", options: ["A. Tình yêu", "B. Tiền", "C. Lòng kiêu hãnh", "D. Thời gian"], answer: "A" },
+            { question: "Cái gì không có mắt nhưng có thể nhìn thấy?", options: ["A. Gương", "B. Trái đất", "C. Mặt trời", "D. Bầu trời"], answer: "A" },
+            { question: "Cái gì luôn đi lên nhưng không bao giờ đi xuống?", options: ["A. Tuổi tác", "B. Thời gian", "C. Kinh tế", "D. Đường phố"], answer: "A" },
+            { question: "Cái gì mà bạn càng để lâu càng quý?", options: ["A. Rượu", "B. Thời gian", "C. Ký ức", "D. Lòng kiêu hãnh"], answer: "A" },
+            { question: "Cái gì càng ít càng tốt?", options: ["A. Tiền", "B. Thời gian", "C. Sự im lặng", "D. Lời nói"], answer: "C" },
+            { question: "Cái gì có thể nói nhưng không bao giờ nói dối?", options: ["A. Gương", "B. Thời gian", "C. Tiền", "D. Tình yêu"], answer: "A" },
+            { question: "Cái gì không có lửa nhưng có thể cháy?", options: ["A. Rác", "B. Giấy", "C. Tình yêu", "D. Gió"], answer: "C" },
+            { question: "Cái gì càng giàu có càng không thể cầm nắm?", options: ["A. Tình yêu", "B. Thời gian", "C. Kinh nghiệm", "D. Lòng kiêu hãnh"], answer: "A" },
+            { question: "Cái gì không có chân nhưng lại có thể đi?", options: ["A. Gió", "B. Thời gian", "C. Mưa", "D. Tình yêu"], answer: "C" },
+            { question: "Cái gì không thể mất đi nhưng lại có thể quên?", options: ["A. Ký ức", "B. Tình yêu", "C. Thời gian", "D. Sức khỏe"], answer: "A" },
+            { question: "Cái gì có thể đứng yên nhưng lại có thể di chuyển?", options: ["A. Ngọn đèn", "B. Bức tranh", "C. Tình yêu", "D. Mặt trời"], answer: "C" },
+            { question: "Cái gì có thể kéo dài mãi mãi nhưng không thể chạm vào?", options: ["A. Tình yêu", "B. Thời gian", "C. Không khí", "D. Ký ức"], answer: "B" },
+            { question: "Cái gì không thể làm hỏng nhưng có thể bị quên?", options: ["A. Lời hứa", "B. Ký ức", "C. Tình yêu", "D. Sức khỏe"], answer: "A" },
+            { question: "Cái gì không có hình dáng nhưng vẫn có thể cảm nhận?", options: ["A. Tình yêu", "B. Thời gian", "C. Không khí", "D. Giấc mơ"], answer: "C" },
+            { question: "Cái gì càng ít càng tốt?", options: ["A. Lời nói", "B. Tiền", "C. Thời gian", "D. Tình yêu"], answer: "A" },
+            { question: "Cái gì không thể mất đi nhưng lại có thể quên?", options: ["A. Ký ức", "B. Tình yêu", "C. Thời gian", "D. Sức khỏe"], answer: "A" },
+            { question: "Cái gì có thể nghe thấy nhưng không thể nhìn thấy?", options: ["A. Âm thanh", "B. Gió", "C. Lòng kiêu hãnh", "D. Thời gian"], answer: "A" },
+            { question: "Cái gì không có chân nhưng lại có thể đi?", options: ["A. Gió", "B. Thời gian", "C. Mưa", "D. Tình yêu"], answer: "C" },
+            { question: "Cái gì không thể chạm vào nhưng lại có thể cảm nhận?", options: ["A. Gió", "B. Âm thanh", "C. Tình yêu", "D. Đá"], answer: "A" },
+            { question: "Cái gì mà bạn càng để lâu càng quý?", options: ["A. Rượu", "B. Thời gian", "C. Ký ức", "D. Lòng kiêu hãnh"], answer: "A" },
+            { question: "Cái gì càng cho đi thì càng nhiều?", options: ["A. Tình yêu", "B. Tiền", "C. Lòng kiêu hãnh", "D. Thời gian"], answer: "A" },
+            { question: "Cái gì không có mắt nhưng có thể nhìn thấy?", options: ["A. Gương", "B. Trái đất", "C. Mặt trời", "D. Bầu trời"], answer: "A" },
+            { question: "Cái gì không có chân nhưng vẫn có thể chạy?", options: ["A. Thời gian", "B. Nước", "C. Gió", "D. Đá"], answer: "A" },
+            { question: "Cái gì càng nặng thì lại càng nhẹ?", options: ["A. Nước", "B. Đá", "C. Bóng bay", "D. Lời nói"], answer: "C" },
+            { question: "Cái gì không thể chạy nhưng lại có thể đi?", options: ["A. Nước", "B. Thời gian", "C. Gió", "D. Mặt trời"], answer: "
